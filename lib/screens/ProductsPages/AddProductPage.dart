@@ -5,9 +5,24 @@ import 'package:toast/toast.dart';
 import '../../core/widgets/button.dart';
 import '../../core/widgets/textfield.dart';
 import '../../domain/ProductDataTextFieldProvider.dart';
+import '../MainScreen/MainPageOfBanks.dart';
 
 class AddProductPage extends StatelessWidget{
-  
+  final String? name;
+  final String? count;
+  final String? code;
+  final String? price;
+  final String? note;
+  final String? id;
+
+  const AddProductPage({
+    super.key,
+    this.note,
+    this.id,
+    this.name,
+    this.count,
+    this.code,
+    this.price});
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
@@ -39,6 +54,7 @@ class AddProductPage extends StatelessWidget{
               validationService.changeNameOfProduct(vals);
             },
             inputType: TextInputType.number,
+            oldData: name,
           ),
           TextFieldWidget(
             hintText: "عدد المنتجات",
@@ -50,6 +66,7 @@ class AddProductPage extends StatelessWidget{
               validationService.changeCountOfProduct(vals);
             },
             inputType: TextInputType.number,
+            oldData: count,
           ),
           TextFieldWidget(
             hintText: "كود المنتج",
@@ -61,6 +78,7 @@ class AddProductPage extends StatelessWidget{
               validationService.changeCodeOfProduct(vals);
             },
             inputType: TextInputType.number,
+            oldData: code,
           ),
           TextFieldWidget(
             hintText: "سعر المنتج",
@@ -72,6 +90,7 @@ class AddProductPage extends StatelessWidget{
               validationService.changePriceOfProduct(vals);
             },
             inputType: TextInputType.number,
+            oldData: price,
           ),
 
           TextFieldWidget(
@@ -84,6 +103,7 @@ class AddProductPage extends StatelessWidget{
               validationService.changeNoteOfProduct(vals);
             },
             inputType: TextInputType.number,
+            oldData: note,
           ),
 
           ButtonWidget(
@@ -93,7 +113,11 @@ class AddProductPage extends StatelessWidget{
             borderColor: Theme.of(context).primaryColor,
             textColor:Theme.of(context).cardColor,
             onPressed: ()  async {
-              if (await validationService.dataOfProductIsValid){
+              if (name!=null&&count!=null&&price!=null&&note!=null&&code!=null&&id!=null){
+                validationService.editProductValid(id!, name!,count!, price!,  note!, code!);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const MainPage()), (route) => false);
+              }else if (await validationService.dataOfProductIsValid){
                 Navigator.pop(context);
               }
             },

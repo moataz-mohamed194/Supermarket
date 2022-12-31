@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/NotesProvider.dart';
+import '../../domain/ReceivedProvider.dart';
 import '../../screens/Notes/AddNote.dart';
 
 class NoteDisplay extends StatelessWidget{
   final String id ;
   final String note;
+  final String? received;
   final String number;
   final String title;
 
@@ -15,11 +17,12 @@ class NoteDisplay extends StatelessWidget{
     required this.id,
     required this.note,
     required this.title,
-    required this.number});
+    required this.number, this.received});
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(20.0),
+      color: received == null?Colors.transparent:received == 'true'?Colors.green:Colors.transparent,
       child: Row(
         children: [
           Expanded(
@@ -39,7 +42,10 @@ class NoteDisplay extends StatelessWidget{
             flex: 1,
             child: Column(
               children: [
-                IconButton(
+                received!=null?IconButton(
+                    onPressed: ()=>_editReceivedMethod(id,context),
+                    icon: const Icon(Icons.done)
+                ):IconButton(
                     onPressed: ()=>_editNoteMethod(context),
                     icon: const Icon(Icons.edit)
                 ),
@@ -57,9 +63,21 @@ class NoteDisplay extends StatelessWidget{
   }
 
   _deleteNoteMethod(String id,BuildContext context ){
-    final dataProvider = Provider.of<NotesProvider>(context,listen: false);
-    dataProvider.deleteNote(int.parse(id));
-    dataProvider.getNotesData();
+    if (received==null) {
+      final dataProvider = Provider.of<NotesProvider>(context, listen: false);
+      dataProvider.deleteNote(int.parse(id));
+      dataProvider.getNotesData();
+    }else{
+      final dataProvider = Provider.of<ReceivedProvider>(context, listen: false);
+      dataProvider.deleteReceivedData(int.parse(id));
+      dataProvider.getReceivedData();
+    }
+  }
+
+  _editReceivedMethod(String id,BuildContext context ){
+    final dataProvider = Provider.of<ReceivedProvider>(context, listen: false);
+    dataProvider.editReceivedData(int.parse(id));
+    dataProvider.getReceivedData();
 
   }
 

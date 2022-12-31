@@ -93,7 +93,7 @@ class AddProfitPage extends StatelessWidget{
               if (profitId!=null&&content!=null&&price!=null&&date!=null){
                 validationService.editNotesData(price!, content!, profitId!, date!);
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => const MainPage()), (route) => false);
+                    MaterialPageRoute(builder: (_) => MainPage()), (route) => false);
               }else if (await validationService.dataOfProfitIsValid){
                 validationService.getProfitData();
                 Navigator.pop(context);

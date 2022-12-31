@@ -1,6 +1,4 @@
 PODS:
-  - ai_barcode (0.0.1):
-    - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -12,7 +10,6 @@ PODS:
     - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
-  - ai_barcode (from `Flutter/ephemeral/.symlinks/plugins/ai_barcode/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_macos (from `Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
@@ -22,8 +19,6 @@ SPEC REPOS:
     - FMDB
 
 EXTERNAL SOURCES:
-  ai_barcode:
-    :path: Flutter/ephemeral/.symlinks/plugins/ai_barcode/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   path_provider_macos:
@@ -32,7 +27,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/sqflite/macos
 
 SPEC CHECKSUMS:
-  ai_barcode: 54be7557c4f79e73988831b5e5b1d334349a14b7
   FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider_macos: 3c0c3b4b0d4a76d2bf989a913c2de869c5641a19

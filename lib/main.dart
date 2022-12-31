@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:supermarket/test/Desktop.dart';
 import 'core/StrogeData/hive.dart';
 import 'domain/ExpensesAndProfitProvider.dart';
 import 'domain/ExpensesProvider.dart';
 import 'domain/NotesProvider.dart';
 import 'domain/ProductDataTextFieldProvider.dart';
 import 'domain/ProfitProvider.dart';
+import 'domain/ReceivedProvider.dart';
 import 'domain/RegistrationTextFieldProvider.dart';
 import 'domain/SearchTextFieldProvider.dart';
+import 'domain/basket_provider.dart';
 import 'screens/MainScreen/MainPageOfBanks.dart';
 import 'screens/Registration/login.dart';
 import 'package:path/path.dart';
 import 'package:hive_flutter/adapters.dart';
 
-import 'test2/MyApp2.dart';
 
 
 Future<Database> initializedDB() async {
   String path = await getDatabasesPath();
   return openDatabase(
-    join(path, 'market3.db'),
+    join(path, 'market6.db'),
     version: 4,
     onCreate: (Database db, int version) async {
       await db.execute(
@@ -33,6 +33,9 @@ Future<Database> initializedDB() async {
 
       await db.execute(
         'CREATE TABLE profit (id INTEGER PRIMARY KEY , price DECIMAL, content TEXT, count INTEGER, dateOfAction DATETIME )',
+      );
+      await db.execute(
+        'CREATE TABLE Received (id INTEGER PRIMARY KEY , content TEXT, dateOfAction DATETIME, received Boolean DEFAULT false NOT NULL)',
       );
       await db.execute(
         'CREATE TABLE Products (id INTEGER PRIMARY KEY , name TEXT, count INTEGER, price DECIMAL, note TEXT, code TEXT, qrCode TEXT )',
@@ -85,6 +88,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ExpensesAndProfitProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => BasketProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ReceivedProvider(),
+        ),
       ],
       child: MaterialApp(
             title: 'Banking',
@@ -92,8 +101,8 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home:MyApp2()
-        //home:loggedData==null||loggedData!.logged==false? const LoginPage(): const MainPage()
+            // home:MyApp2()
+            home:loggedData==null||loggedData!.logged==false? const LoginPage(): MainPage()
             ),
     );
   }

@@ -77,7 +77,7 @@ class LoginPage extends StatelessWidget{
                 onPressed: ()  async {
                   if (await validationService.signInIsValid){
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (_) => const MainPage()), (route) => false);
+                        MaterialPageRoute(builder: (_) => MainPage()), (route) => false);
 
                   }
                 },

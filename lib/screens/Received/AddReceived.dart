@@ -1,24 +1,15 @@
-
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import '../../core/widgets/button.dart';
 import '../../core/widgets/textfield.dart';
-import '../../domain/ExpensesProvider.dart';
-import '../MainScreen/MainPageOfBanks.dart';
+import '../../domain/ReceivedProvider.dart';
 
-class AddExpensesPage extends StatelessWidget{
-  final String? expensesId;
-  final String? content;
-  final String? price;
-  final String? date;
-  const AddExpensesPage({super.key,
-     this.expensesId,
-     this.price,
-    this.content,
-    this.date});
+class AddReceivedPage extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
@@ -32,18 +23,19 @@ class AddExpensesPage extends StatelessWidget{
 
   AppBar appBarBody(BuildContext context){
     return AppBar(
-      title: expensesId!=null&&content!=null&&price!=null&&date!=null?const Text('تعديل مصروفات'): const Text('تسجيل مصروفات'),
+      title:  const Text('تسجيل الاستلام'),
     );
   }
 
   Widget bodyWidget(BuildContext context){
-    final validationService = Provider.of<ExpensesProvider>(context);
+    final validationService = Provider.of<ReceivedProvider>(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+
           TextFieldWidget(
-            hintText: "عنوان المصروفات",
+            hintText: "المستلم",
             errorText: validationService.contentData.error,
             cursorColor: Colors.black,
             borderSideColor: Theme.of(context).primaryColor,
@@ -52,50 +44,33 @@ class AddExpensesPage extends StatelessWidget{
               validationService.changeContent(vals);
             },
             inputType: TextInputType.text,
-            oldData: content,
           ),
-          TextFieldWidget(
-            hintText: "سعر المصروفات",
-            errorText: validationService.priceData.error,
-            cursorColor: Colors.black,
-            borderSideColor: Theme.of(context).primaryColor,
-            textStyleColor: Colors.black,
-            textChange: (vals) {
-              validationService.changePrice(vals);
-            },
-            inputType: TextInputType.number,
-            oldData: price,
-          ),
+
           SizedBox(
             width: MediaQuery.of(context).size.width / 1.25,
             child: DateTimePicker(
               textAlign: TextAlign.right,
               type: DateTimePickerType.date,
-              dateMask: 'dd-MM-yyyy',
+              dateMask: 'dd/MM/yyyy',
               firstDate: DateTime(2000),
-
               errorFormatText: validationService.dateData.error,
               dateHintText:'التاريخ' ,
               lastDate: DateTime(2100),
-              initialValue:date.toString(),
               onChanged: (vals) {
                 validationService.changeDate(vals);
               },
+              onSaved: (val) => print(val),
             ),
           ),
           ButtonWidget(
             height: 50,
             color: Theme.of(context).primaryColor,
-            text: expensesId!=null&&content!=null&&price!=null&&date!=null?"تعديل":"اضافه",
+            text: "اضافه",
             borderColor: Theme.of(context).primaryColor,
             textColor:Theme.of(context).cardColor,
             onPressed: ()  async {
-              if (expensesId!=null&&content!=null&&price!=null&&date!=null){
-                validationService.editNotesData(price!, content!, expensesId!, date!);
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => MainPage()), (route) => false);
-              }else if (await validationService.dataOfExpensesIsValid){
-                validationService.getExpensesData();
+              if (await validationService.dataOfReceivedIsValid){
+                validationService.getReceivedData();
                 Navigator.pop(context);
               }
             },
@@ -104,7 +79,4 @@ class AddExpensesPage extends StatelessWidget{
       ),
     );
   }
-
-
-
 }

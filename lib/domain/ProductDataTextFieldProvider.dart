@@ -94,4 +94,36 @@ class ProductDataTextFieldProvider extends ChangeNotifier{
         }
   }
 
+  bool deleteProductValid(int id){
+    try {
+      ProductMethods().deleteProduct(id);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  bool editProductValid(String id, String name, String count, String price, String note, String code){
+    if(nameOfProductData.value != null && nameOfProductData.value != name){
+      name = nameOfProductData.value!;
+    }
+    if (countOfProductData.value != null && countOfProductData.value != count){
+      count = countOfProductData.value!;
+    }
+    if (priceOfProductData.value != null && priceOfProductData.value != price){
+      price = priceOfProductData.value!;
+    }
+    if (noteOfProductData.value != null && noteOfProductData.value != note){
+      note = noteOfProductData.value!;
+    }
+    if (codeOfProductData.value != null && codeOfProductData.value != code){
+      code = codeOfProductData.value!;
+    }
+    try {
+      ProductMethods().editProduct(id, name, count, price, note, code);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
 }
